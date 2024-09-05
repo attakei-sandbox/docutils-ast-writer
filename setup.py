@@ -6,13 +6,13 @@ setup(
     version='2023.1.0',
     author='jimo1001',
     author_email='jimo1001@gmail.com',
-    maintainer='Shiguredo Inc.',
+    maintainer='Kazuya Takei',
     license='MIT',
-    url='https://github.com/shiguredo/docutils-ast-writer',
+    url='https://github.com/attakei-sandbox/docutils-ast-writer',
     packages=find_packages(),
     install_requires=[
         # Sphinx 最新版に揃える
-        'docutils>=0.18,<0.20'
+        'docutils>=0.20,<0.22',
     ],
     entry_points="""
         [console_scripts]
