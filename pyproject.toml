@@ -12,7 +12,7 @@ maintainers = [
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "docutils>=0.18,<0.20",  # 適宜調整
+    "docutils>=0.18",  # 適宜調整
 ]
 
 [project.scripts]
