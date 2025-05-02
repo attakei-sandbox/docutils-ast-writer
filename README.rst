@@ -1,58 +1,21 @@
-##############################
+###################
 Docutils AST Writer
-##############################
+###################
 
-About Shiguredo's open source software
-==============================================
+.. note::
 
-We will not respond to PRs or issues that have not been discussed on Discord. Also, Discord is only available in Japanese.
+    This is forked project from https://github.com/shiguredo/docutils-ast-writer/
 
-Please read https://github.com/shiguredo/oss/blob/master/README.en.md before use.
+    Original is https://github.com/jimo1001/docutils-ast-writer
 
-時雨堂のオープンソースソフトウェアについて
-==============================================
-
-利用前に https://github.com/shiguredo/oss をお読みください。
-
-Docutils AST Writer について
-============================
-
-このリポジトリは `@jimo1001 <https://github.com/johejo/>`_ の https://github.com/jimo1001/docutils-ast-writer フォークです。
-
-時雨堂がメンテナンスをしています。
-
-インストール
-======================
-
-**PyPI には登録を行っていません**
-
-.. code-block:: console
-
-   $ pip install -e git+https://github.com/shiguredo/docutils-ast-writer@shiguredo#egg=docutils-ast-writer
-
-
-requirements.txt を利用している場合は以下を追記してください。
-
-::
-
-  -e git+https://github.com/shiguredo/docutils-ast-writer@shiguredo#egg=docutils-ast-writer
-
-
-使い方
-======================
-
-.. code-block:: console
-
-   $ rst2ast [options] [<source> [<destination>]]
-
-
-ライセンス
-======================
+License
+#######
 
 ::
 
   The MIT License (MIT)
 
+  Copyright (c) 2025- Kazuya Takei <attakei>
   Copyright (c) 2023-2023 Shiguredo Inc.
   Copyright (c) 2016 jimo1001
 
