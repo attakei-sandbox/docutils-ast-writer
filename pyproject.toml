@@ -18,6 +18,11 @@ dependencies = [
 [project.scripts]
 rst2ast = "rst2ast.cmd:run"
 
+[project.optional-dependencies]
+simplejson = [
+    "simplejson>=3.20.1",
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
