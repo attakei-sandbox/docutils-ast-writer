@@ -1,9 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from docutils import writers, nodes
 
 try:
     import simplejson as json
 except ImportError:
     import json
+
+if TYPE_CHECKING:
+    from typing import Tuple, Union
 
 __docformat__ = "reStructuredText"
 
@@ -30,18 +36,20 @@ class ASTWriter(writers.Writer):
 
 
 class ASTTranslator(nodes.GenericNodeVisitor):
-    def __init__(self, document):
+    def __init__(self, document: nodes.document):
         nodes.NodeVisitor.__init__(self, document)
-        result, line = self.walk(document)
+        result, _ = self.walk(document)
         self.output = [json.dumps(result)]
 
-    def walk(self, node, line=1):
+    def walk(
+        self, node: nodes.Node, line: int = 1
+    ) -> Union[Tuple[dict, int], Tuple[None, None]]:
         if not isinstance(node, nodes.Node):
             return None, None
         result = {}
         # Line Start
         if node.line:
-            line = node.line
+            line = int(node.line)
         # Attributes
         for k, v in node.__dict__.items():
             try:
