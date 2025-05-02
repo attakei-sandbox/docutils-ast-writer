@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from itertools import count
 from typing import TYPE_CHECKING
 
 from docutils import writers, nodes
@@ -9,7 +11,7 @@ except ImportError:
     import json
 
 if TYPE_CHECKING:
-    from typing import Tuple, Union
+    from typing import Optional, Tuple, Union
 
 __docformat__ = "reStructuredText"
 
@@ -38,55 +40,66 @@ class ASTWriter(writers.Writer):
 class ASTTranslator(nodes.GenericNodeVisitor):
     def __init__(self, document: nodes.document):
         nodes.NodeVisitor.__init__(self, document)
-        result, _ = self.walk(document)
+        result, _, _ = self.walk(document)
         self.output = [json.dumps(result)]
 
     def walk(
-        self, node: nodes.Node, line: int = 1
-    ) -> Union[Tuple[dict, int], Tuple[None, None]]:
+        self,
+        node: nodes.Node,
+        start: Optional[int] = 1,
+        end: Optional[int] = None,
+    ) -> Union[Tuple[dict, int, int], Tuple[None, None, None]]:
         if not isinstance(node, nodes.Node):
-            return None, None
+            return None, None, None
         result = {}
-        # Line Start
-        if node.line:
-            line = int(node.line)
         # Attributes
         for k, v in node.__dict__.items():
+            if k.startswith("__"):
+                continue
+            if not isinstance(v, (str, int, float, bool)):
+                continue
             try:
-                if not k.startswith("__") and isinstance(
-                    v,
-                    (
-                        str,
-                        int,
-                        float,
-                        bool,
-                    ),
-                ):
-                    result[k] = v
+                result[k] = v
             except NameError:
                 pass
+        # line
+        if node.line:
+            result["lineno"] = node.line
         # Tag Name (type)
         if "tagname" not in result:
             result["tagname"] = "text"
         # Text
         if isinstance(node, (nodes.Text,)):
             result["text"] = node.astext()
-        # line.start
-        result["line"] = {"start": line}
+
+        # Line from node
+        if isinstance(node, nodes.paragraph):
+            if node.line:
+                start = node.line
+            if node.rawsource:
+                end = start + len(node.rawsource.split("\n"))
+        elif node.line:
+            idx = node.parent.index(node)
+            if idx == 0:
+                start = 1
+            else:
+                start = end + 1
+            end = node.line
+        result["line"] = {
+            "start": start,
+        }
+
         # Children
-        children = getattr(node, "children", [])
-        if len(children) > 0:
-            result["children"] = []
-            for child_node in children:
-                res, _line = self.walk(child_node, line)
-                if not res:
-                    continue
-                result["children"].append(res)
-                if line < _line:
-                    line = _line
+        if node.children:
+            children = []
+            for child in node.children:
+                result_, start, end = self.walk(child, start, end)
+                children.append(result_)
+            result["children"] = children
+
         # Line End
-        result["line"]["end"] = line
-        return result, line
+        result["line"]["end"] = end
+        return result, start, end
 
     # GenericNodeVisitor methods
     def default_visit(self, node):
