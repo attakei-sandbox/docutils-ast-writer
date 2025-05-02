@@ -1,0 +1,32 @@
+{
+  "rawsource": "",
+  "tagname": "document",
+  "autofootnote_start": 1,
+  "symbol_footnote_start": 0,
+  "line": {
+    "start": 1,
+    "end": 3
+  },
+  "children": [
+    {
+      "rawsource": "Title",
+      "tagname": "title",
+      "source": "test-data/title-only.rst",
+      "line": {
+        "start": 1,
+        "end": 3
+      },
+      "lineno": 3,
+      "children": [
+        {
+          "tagname": "text",
+          "text": "Title",
+          "line": {
+            "start": 1,
+            "end": 3
+          }
+        }
+      ]
+    }
+  ]
+}

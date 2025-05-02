@@ -1,0 +1,40 @@
+[project]
+name = "docutils-ast-writer"
+version = "2023.1.0"
+description = "AST Writer for docutils"
+readme = "README.rst"
+authors = [
+    { name = "jim1001", email = "jimo1001@gmail.com" },  # Original
+]
+maintainers = [
+    { name = "Kazuya Takei", email = "myself@attakei.net" },
+    { name = "Shiguredo Inc." },
+]
+requires-python = ">=3.9"
+dependencies = [
+    "docutils>=0.18,<0.20",  # 適宜調整
+]
+
+[project.scripts]
+rst2ast = "rst2ast.cmd:run"
+
+[project.optional-dependencies]
+simplejson = [
+    "simplejson>=3.20.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "deepdiff>=8.4.2",
+    "esbonio>=0.16.5",
+    "pytest>=8.3.5",
+    "ruff>=0.11.8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["rst2ast"]
+
